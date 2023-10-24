@@ -22,17 +22,33 @@ public class Utils {
     public static String[] buildCommandLine(FilePath script) {
         if (isRunningOnWindows(script)) {
             return new String[]{"powershell.exe", "-NonInteractive", "-ExecutionPolicy", "Bypass", "& \'" + script.getRemote() + "\'"};
+        } else if (isRunningOnMacOrLinux(script)) {
+            return new String[]{"pwsh", "-NonInteractive", "-File", script.getRemote()};
         } else {
-            return new String[]{"powershell", "-NonInteractive", "& \'" + script.getRemote() + "\'"};
+            throw new UnsupportedOperationException("Unsupported operating system.");
         }
     }
 
-    private static boolean isRunningOnWindows(FilePath scriptFile) {
-        if (!scriptFile.isRemote()) {
+    private static boolean isRunningOnWindows(FilePath script) {
+        return script.getChannel().call(new IsWindowsOS());
+    }
+
+    private static boolean isRunningOnMacOrLinux(FilePath script) {
+        return script.getChannel().call(new IsMacOrLinuxOS());
+    }
+
+    private static class IsWindowsOS extends MasterToSlaveCallable<Boolean, RuntimeException> {
+        @Override
+        public Boolean call() {
             return SystemUtils.IS_OS_WINDOWS;
         }
-        String path = scriptFile.getRemote();
-        return path.length() > 3 && path.charAt(1) == ':' && path.charAt(2) == '\\';
+    }
+
+    private static class IsMacOrLinuxOS extends MasterToSlaveCallable<Boolean, RuntimeException> {
+        @Override
+        public Boolean call() {
+            return SystemUtils.IS_OS_MAC || SystemUtils.IS_OS_LINUX;
+        }
     }
 
     public static String getStringFromInputStream(InputStream inputStream) {
@@ -58,5 +74,4 @@ public class Utils {
         }
         return sb.toString();
     }
-
 }
