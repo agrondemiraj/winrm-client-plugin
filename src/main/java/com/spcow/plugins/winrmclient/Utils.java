@@ -22,11 +22,7 @@ public class Utils {
     public static String[] buildCommandLine(FilePath script) {
         if (isRunningOnWindows(script)) {
             return new String[]{"powershell.exe", "-NonInteractive", "-ExecutionPolicy", "Bypass", "& \'" + script.getRemote() + "\'"};
-        } 
-        // else if (isRunningOnLinux(script)) {
-        //     return new String[]{"pwsh", "-NonInteractive", "& \'" + script.getRemote() + "\'"};
-        // }     
-        else {
+        } else {
             return new String[]{"pwsh", "-NonInteractive", "& \'" + script.getRemote() + "\'"};
         }
     }
@@ -38,14 +34,6 @@ public class Utils {
         String path = scriptFile.getRemote();
         return path.length() > 3 && path.charAt(1) == ':' && path.charAt(2) == '\\';
     }
-
-    // private static boolean isRunningOnLinux(FilePath scriptFile) {
-    //     if (!scriptFile.isRemote()) {
-    //         return SystemUtils.IS_OS_LINUX;
-    //     }
-    //     String path = scriptFile.getRemote();
-    //     return path.length() > 3 && path.charAt(1) == ':' && path.charAt(2) == '\\';
-    // }
 
     public static String getStringFromInputStream(InputStream inputStream) {
         BufferedReader bufferedReader = null;
