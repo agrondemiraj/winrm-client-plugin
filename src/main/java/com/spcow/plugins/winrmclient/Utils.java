@@ -44,7 +44,7 @@ public class Utils {
             return SystemUtils.IS_OS_LINUX;
         }
         String path = scriptFile.getRemote();
-        return path.length() > 3 && path.charAt(1) == ':' && path.charAt(2) == '\\';
+        return path.length() > 3 && path.charAt(1) == ':' && path.charAt(2) == '/';
     }
 
     public static String getStringFromInputStream(InputStream inputStream) {
