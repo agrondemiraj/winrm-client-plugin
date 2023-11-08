@@ -19,17 +19,26 @@ public class Utils {
         return command + "\r\nexit $LastExitCode";
     }
 
+    // public static String[] buildCommandLine(FilePath script) {
+    //     if (isRunningOnWindows(script)) {
+    //         return new String[]{"powershell.exe", "-NonInteractive", "-ExecutionPolicy", "Bypass", "& \'" + script.getRemote() + "\'"};
+    //     } 
+    //     else if (isRunningOnLinux(script)) {
+    //         return new String[]{"pwsh", "-NonInteractive", "-ExecutionPolicy", "Bypass", "& \'" + script.getRemote() + "\'"};
+    //     }     
+    //     else {
+    //         return new String[]{"powershell", "-NonInteractive", "& \'" + script.getRemote() + "\'"};
+    //     }
+    // }
+
     public static String[] buildCommandLine(FilePath script) {
         if (isRunningOnWindows(script)) {
-            return new String[]{"powershell.exe", "-NonInteractive", "-ExecutionPolicy", "Bypass", "& \'" + script.getRemote() + "\'"};
-        } 
-        else if (isRunningOnLinux(script)) {
-            return new String[]{"pwsh", "-NonInteractive", "-ExecutionPolicy", "Bypass", "& \'" + script.getRemote() + "\'"};
-        }     
-        else {
-            return new String[]{"powershell", "-NonInteractive", "& \'" + script.getRemote() + "\'"};
+            return new String[]{"powershell.exe", "-NonInteractive", "-ExecutionPolicy", "Bypass", "\'" + script.getRemote() + "\'"};
+        } else {
+            return new String[]{"pwsh", "-NonInteractive", "\'" + script.getRemote() + "\'"};
         }
     }
+
 
     private static boolean isRunningOnWindows(FilePath scriptFile) {
         if (!scriptFile.isRemote()) {
