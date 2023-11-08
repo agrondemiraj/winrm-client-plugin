@@ -48,14 +48,6 @@ public class Utils {
         return path.length() > 3 && path.charAt(1) == ':' && path.charAt(2) == '\\';
     }
 
-    private static boolean isRunningOnLinux(FilePath scriptFile) {
-        if (!scriptFile.isRemote()) {
-            return SystemUtils.IS_OS_LINUX;
-        }
-        String path = scriptFile.getRemote();
-        return path.length() > 3 && path.charAt(1) == ':' && path.charAt(2) == '\\';
-    }
-
     public static String getStringFromInputStream(InputStream inputStream) {
         BufferedReader bufferedReader = null;
         StringBuilder sb = new StringBuilder();
