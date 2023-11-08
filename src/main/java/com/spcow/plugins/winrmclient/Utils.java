@@ -21,7 +21,7 @@ public class Utils {
 
     public static String[] buildCommandLine(FilePath script) {
         if (isRunningOnWindows(script)) {
-            return new String[]{"powershell.exe", "-NonInteractive", "-ExecutionPolicy", "Bypass", "& \'" + script.getRemote() + "\'"};
+            return new String[]{"pwsh.exe", "-NonInteractive", "-ExecutionPolicy", "Bypass", "& \'" + script.getRemote() + "\'"};
         } else {
             return new String[]{"pwsh", "-NonInteractive", "& \'" + script.getRemote() + "\'"};
         }
